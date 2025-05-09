@@ -18,7 +18,9 @@ async function cargarAlumnos() {
     `;
     lista.appendChild(li);
   });
+  buscarAlumnos(); // Llamar a la búsqueda para filtrar desde el principio
 }
+
 
 form.addEventListener('submit', async e => {
   e.preventDefault();
