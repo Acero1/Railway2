@@ -1,8 +1,12 @@
 const form = document.getElementById('formAlumno');
 const lista = document.getElementById('listaAlumnos');
+let modoEdicion = false;
+let idEditando = null;
+
+const API_URL = '/api/alumnos'; // Cambia esto si usas un dominio completo
 
 async function cargarAlumnos() {
-  const res = await fetch('/api/alumnos');
+  const res = await fetch(API_URL);
   const alumnos = await res.json();
   lista.innerHTML = '';
   alumnos.forEach(a => {
@@ -10,7 +14,7 @@ async function cargarAlumnos() {
     li.innerHTML = `
       ${a.nombre} (${a.correo})
       <button onclick="eliminar(${a.id})">Eliminar</button>
-      <button onclick="editar(${a.id}, '${a.nombre}', '${a.correo}')">Editar</button>
+      <button onclick="activarEdicion(${a.id}, '${a.nombre}', '${a.correo}')">Editar</button>
     `;
     lista.appendChild(li);
   });
@@ -18,41 +22,44 @@ async function cargarAlumnos() {
 
 form.addEventListener('submit', async e => {
   e.preventDefault();
-  const nombre = document.getElementById('nombre').value;
-  const correo = document.getElementById('correo').value;
-  await fetch('/api/alumnos', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ nombre, correo })
-  });
+  const nombre = document.getElementById('nombre').value.trim();
+  const correo = document.getElementById('correo').value.trim();
+
+  if (!nombre || !correo) return alert('Completa ambos campos');
+
+  if (modoEdicion && idEditando !== null) {
+    // Editar
+    await fetch(`${API_URL}/${idEditando}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre, correo })
+    });
+    modoEdicion = false;
+    idEditando = null;
+  } else {
+    // Agregar
+    await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre, correo })
+    });
+  }
+
   form.reset();
   cargarAlumnos();
 });
 
 async function eliminar(id) {
-  await fetch(`/api/alumnos/${id}`, { method: 'DELETE' });
+  if (!confirm('¿Seguro que deseas eliminar este alumno?')) return;
+  await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
   cargarAlumnos();
 }
 
-function editar(id, nombre, correo) {
+function activarEdicion(id, nombre, correo) {
   document.getElementById('nombre').value = nombre;
   document.getElementById('correo').value = correo;
-
-  form.onsubmit = async function(e) {
-    e.preventDefault();
-    const nuevoNombre = document.getElementById('nombre').value;
-    const nuevoCorreo = document.getElementById('correo').value;
-    await fetch(`/api/alumnos/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre: nuevoNombre, correo: nuevoCorreo })
-    });
-    form.reset();
-    cargarAlumnos();
-    form.onsubmit = defaultSubmit;
-  }
+  modoEdicion = true;
+  idEditando = id;
 }
-
-const defaultSubmit = form.onsubmit;
 
 cargarAlumnos();
