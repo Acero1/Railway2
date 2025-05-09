@@ -49,6 +49,32 @@ form.addEventListener('submit', async e => {
   cargarAlumnos();
 });
 
+const buscarAlumnos = async () => {
+  const query = document.getElementById('buscar').value.toLowerCase();
+  
+  // Fetch de alumnos
+  const res = await fetch(API_URL);
+  const alumnos = await res.json();
+
+  // Filtrar los alumnos que coinciden con la búsqueda
+  const alumnosFiltrados = alumnos.filter(a => {
+    return a.nombre.toLowerCase().includes(query) || a.correo.toLowerCase().includes(query);
+  });
+
+  // Renderizar la lista filtrada
+  lista.innerHTML = '';
+  alumnosFiltrados.forEach(a => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      ${a.nombre} (${a.correo})
+      <button onclick="eliminar(${a.id})">Eliminar</button>
+      <button onclick="activarEdicion(${a.id}, '${a.nombre}', '${a.correo}')">Editar</button>
+    `;
+    lista.appendChild(li);
+  });
+};
+
+
 async function eliminar(id) {
   if (!confirm('¿Seguro que deseas eliminar este alumno?')) return;
   await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
