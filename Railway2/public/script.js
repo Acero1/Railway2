@@ -91,3 +91,12 @@ function activarEdicion(id, nombre, correo) {
 }
 
 cargarAlumnos();
+
+document.getElementById('logoutBtn').addEventListener('click', function() {
+  // Elimina los datos de sesión almacenados
+  sessionStorage.clear(); // Si usas sessionStorage
+  // localStorage.clear(); // Si usas localStorage
+
+  // Redirige al usuario a la página de inicio de sesión
+  window.location.href = 'index.html';
+});
