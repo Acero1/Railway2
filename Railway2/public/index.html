@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Registro Escolar</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inicio - Registro Escolar</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <div class="container">
-    <h1>Alumnos</h1>
-    <form id="formAlumno">
-      <input type="text" id="nombre" placeholder="Nombre" required>
-      <input type="email" id="correo" placeholder="Correo" required>
-      <input type="text" id="buscar" placeholder="Buscar por nombre o correo" oninput="buscarAlumnos()">
-      <button type="submit">Agregar</button>
+<body class="login-page">
+  <div class="login-container">
+    <h1>Bienvenido al Registro Escolar</h1>
+    <form id="loginForm">
+      <input type="text" id="usuario" placeholder="Usuario" required />
+      <input type="password" id="clave" placeholder="Contraseña" required />
+      <button type="submit">Iniciar Sesión</button>
     </form>
-    <ul id="listaAlumnos"></ul>
+
+    <div class="enlaces-nube">
+      <h4>Recursos en la nube:</h4>
+      <a href="https://drive.google.com/" target="_blank">Google Drive</a>
+      <a href="https://onedrive.live.com/" target="_blank">OneDrive</a>
+      <a href="https://www.dropbox.com/" target="_blank">Dropbox</a>
+    </div>
   </div>
-  <script src="script.js"></script>
+
+  <script src="login.js"></script>
 </body>
 </html>
+
