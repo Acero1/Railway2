@@ -1,3 +1,4 @@
+/* Estilos generales */
 * {
   box-sizing: border-box;
 }
@@ -10,6 +11,7 @@ body {
   color: #333;
 }
 
+/* Página de login */
 .login-page {
   display: flex;
   justify-content: center;
@@ -70,7 +72,7 @@ body {
   text-decoration: underline;
 }
 
-/* Estilos del sistema principal */
+/* Página principal */
 form {
   display: flex;
   flex-wrap: wrap;
