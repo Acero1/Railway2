@@ -4,20 +4,18 @@
   <meta charset="UTF-8">
   <title>Registro Escolar</title>
   <link rel="stylesheet" href="style.css">
-  
 </head>
 <body>
-  <h1>Alumnos</h1>
-
-  <form id="formAlumno">
-    <input type="text" id="nombre" placeholder="Nombre" required>
-    <input type="email" id="correo" placeholder="Correo" required>
-    <input type="text" id="buscar" placeholder="Buscar por nombre o correo" oninput="buscarAlumnos()">
-    <button type="submit">Agregar</button>
-  </form>
-
-  <ul id="listaAlumnos"></ul>
-
+  <div class="container">
+    <h1>Alumnos</h1>
+    <form id="formAlumno">
+      <input type="text" id="nombre" placeholder="Nombre" required>
+      <input type="email" id="correo" placeholder="Correo" required>
+      <input type="text" id="buscar" placeholder="Buscar por nombre o correo" oninput="buscarAlumnos()">
+      <button type="submit">Agregar</button>
+    </form>
+    <ul id="listaAlumnos"></ul>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
